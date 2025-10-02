@@ -7,7 +7,9 @@
   env.GREET = "devenv";
 
   # https://devenv.sh/packages/
-  packages = [ pkgs.git ];
+  packages = [
+      pkgs.git
+  ];
 
   # https://devenv.sh/languages/
   languages.rust = {
@@ -15,6 +17,7 @@
       enable = true;
       version = "1.90.0";
       targets = ["x86_64-unknown-linux-gnu"];
+      components = ["rustc" "cargo" "clippy" "rustfmt" "rust-analyzer" "rust-src"];
     };
 
   # https://devenv.sh/processes/
