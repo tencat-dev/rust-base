@@ -137,22 +137,6 @@ cargo test -- --nocapture
 cargo test --test integration
 ```
 
-## 📚 Dependencies
-
-| Crate                                         | Purpose               |
-| --------------------------------------------- | --------------------- |
-| [`tokio`](https://tokio.rs/)                  | Async runtime         |
-| [`dotenvy`](https://crates.io/crates/dotenvy) | Environment variables |
-
-### Adding Dependencies
-
-```bash
-# Runtime dependency
-cargo add serde --features derive
-
-# Development dependency
-cargo add --dev proptest
-```
 
 ## 🚀 Deployment
 
@@ -224,12 +208,6 @@ docker build --no-cache -t rust-base .
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🔗 Resources
-
-- [Rust Documentation](https://doc.rust-lang.org/)
-- [Tokio Tutorial](https://tokio.rs/tokio/tutorial)
-- [devenv Guide](https://devenv.sh/)
 
 ---
 
