@@ -20,11 +20,6 @@ target
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 
-
-# Added by cargo
-
-/target
-
 # Devenv
 .devenv*
 devenv.local.nix
@@ -34,3 +29,6 @@ devenv.local.nix
 
 # pre-commit
 .pre-commit-config.yaml
+
+# .env file
+.env
