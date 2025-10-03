@@ -137,22 +137,6 @@ cargo test -- --nocapture
 cargo test --test integration
 ```
 
-
-## 🚀 Deployment
-
-### Building for Production
-
-```bash
-# Optimized build
-cargo build --release
-
-# Cross-compile for Linux
-cargo build --release --target x86_64-unknown-linux-musl
-
-# Docker production build
-docker build --target runtime -t rust-base:prod .
-```
-
 ### Environment Variables
 
 Required environment variables:
@@ -170,12 +154,6 @@ Required environment variables:
 5. Commit changes: `git commit -m 'Add new feature'`
 6. Push and create a Pull Request
 
-### Development Workflow
-
-```bash
-# Before committing
-cargo fmt && cargo clippy -- -D warnings && cargo test
-```
 
 ## 🔧 Troubleshooting
 
