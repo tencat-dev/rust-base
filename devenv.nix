@@ -1,7 +1,8 @@
 { pkgs, lib, config, inputs, ... }:
 
 {
-  cachix.enable = false;
+  cachix.enable = true;
+  dotenv.disableHint = true;
 
   # https://devenv.sh/basics/
   env.GREET = "devenv";
