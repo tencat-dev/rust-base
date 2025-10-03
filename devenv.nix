@@ -5,11 +5,11 @@
   dotenv.disableHint = true;
 
   # https://devenv.sh/basics/
-  env.GREET = "devenv";
+  env = {};
 
   # https://devenv.sh/packages/
-  packages = [
-      pkgs.git
+ packages = with pkgs; [
+      git
   ];
 
   # https://devenv.sh/languages/
