@@ -1,712 +1,236 @@
-# 🦀 Rust Base Template
+# 🦀 rust-base
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/yourusername/rust-base)
-[![Rust Version](https://img.shields.io/badge/rust-1.90.0-orange.svg)](https://www.rust-lang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://www.docker.com/)
-[![devenv](https://img.shields.io/badge/devenv-enabled-purple.svg)](https://devenv.sh/)
+[![Rust](https://img.shields.io/badge/rust-1.90.0-orange.svg)](https://www.rust-lang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](Dockerfile)
 
-A modern, production-ready Rust boilerplate template designed to kickstart your next Rust project with best practices, modern tooling, and a batteries-included development environment.
+A modern Rust boilerplate template with async runtime, environment management, and containerization support.
 
-## 🚀 Features
+## ✨ Features
 
-- **Modern Rust**: Uses Rust 2024 edition with the latest stable toolchain
-- **Async Runtime**: Pre-configured with Tokio for high-performance async applications
-- **Environment Management**: Secure configuration handling with dotenvy
-- **Development Environment**: Reproducible dev setup using devenv (Nix-based)
-- **Docker Ready**: Multi-stage Dockerfile optimized for fast builds and small images
-- **Code Quality**: Pre-configured with rustfmt, clippy, and rust-analyzer
-- **Cross-platform**: Supports multiple targets including musl for static linking
+- **Rust 2024 Edition** with stable toolchain
+- **Async Runtime** powered by Tokio
+- **Environment Configuration** with dotenvy
+- **Reproducible Development** using devenv (Nix)
+- **Docker Ready** with optimized multi-stage builds
+- **Development Tools** pre-configured (clippy, rustfmt, rust-analyzer)
 
-## 📋 Table of Contents
-
-- [Quick Start](#-quick-start)
-- [Installation](#-installation)
-- [Project Structure](#-project-structure)
-- [Development Setup](#-development-setup)
-- [Configuration](#-configuration)
-- [Building & Running](#-building--running)
-- [Docker Usage](#-docker-usage)
-- [Testing](#-testing)
-- [Available Scripts](#-available-scripts)
-- [Dependencies](#-dependencies)
-- [Architecture & Design](#-architecture--design)
-- [Best Practices](#-best-practices)
-- [Troubleshooting](#-troubleshooting)
-- [Contributing](#-contributing)
-- [License](#-license)
-
-## 🏃 Quick Start
+## 🚀 Quick Start
 
 ```bash
-# Clone the template
-git clone https://github.com/yourusername/rust-base.git my-project
+# Clone and setup
+git clone https://github.com/tencat-dev/rust-base.git my-project
 cd my-project
-
-# Set up environment variables
 cp .env.example .env
 
-# Option 1: Using devenv (recommended)
+# Run with devenv (recommended)
 devenv shell
 cargo run
 
-# Option 2: Using cargo directly (requires Rust installed)
+# Or run with cargo directly
 cargo run
 
-# Option 3: Using Docker
+# Or use Docker
 docker build -t my-project .
 docker run --env-file .env my-project
 ```
 
 ## 📦 Installation
 
-### Prerequisites
+### Option 1: devenv (Recommended)
 
-Choose one of the following installation methods:
+```bash
+# Install Nix and devenv
+curl -L https://install.determinate.systems/nix | sh
+nix profile install nixpkgs#devenv
 
-#### Method 1: devenv (Recommended)
+# Enter development environment
+devenv shell
+```
 
-- [Nix](https://nixos.org/download/) package manager
-- [devenv](https://devenv.sh/getting-started/) development environment
+### Option 2: Local Rust
 
-#### Method 2: Local Rust Installation
+```bash
+# Install Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+rustup component add clippy rustfmt rust-analyzer
+```
 
-- [Rust](https://rustup.rs/) (1.90.0 or later)
-- [cargo](https://doc.rust-lang.org/cargo/) package manager
-
-#### Method 3: Docker Only
-
-- [Docker](https://docs.docker.com/get-docker/) (20.10 or later)
-
-### Setup Instructions
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/yourusername/rust-base.git your-project-name
-   cd your-project-name
-   ```
-
-2. **Environment configuration:**
-
-   ```bash
-   cp .env.example .env
-   # Edit .env with your specific configuration
-   ```
-
-3. **Choose your development method:**
-
-   **With devenv (Nix-based):**
-
-   ```bash
-   # Install nix if not already installed
-   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-
-   # Install devenv
-   nix profile install --accept-flake-config nixpkgs#devenv
-
-   # Enter development shell
-   devenv shell
-   ```
-
-   **With local Rust:**
-
-   ```bash
-   # Install Rust via rustup
-   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-   source ~/.cargo/env
-
-   # Install required components
-   rustup component add clippy rustfmt rust-analyzer
-   ```
-
-## 📁 Project Structure
+## 🏗️ Project Structure
 
 ```
 rust-base/
-├── src/
-│   └── main.rs              # Application entry point
-├── .env.example             # Environment variables template
-├── .envrc                   # direnv configuration
-├── .gitignore              # Git ignore rules
-├── Cargo.toml              # Rust package manifest
-├── Cargo.lock              # Dependency lock file
-├── devenv.nix              # Development environment config
-├── devenv.yaml             # devenv inputs configuration
-├── devenv.lock             # Development environment lock file
-├── Dockerfile              # Multi-stage Docker build
-├── LICENSE                 # MIT License
-└── README.md               # This file
+├── src/main.rs          # Application entry point
+├── .env.example         # Environment template
+├── Cargo.toml           # Package manifest
+├── devenv.nix           # Development environment
+├── Dockerfile           # Container configuration
+└── README.md            # This file
 ```
-
-### Key Files Explained
-
-- **[`src/main.rs`](src/main.rs:1)**: The main application entry point with async Tokio runtime
-- **[`Cargo.toml`](Cargo.toml:1)**: Package configuration and dependencies
-- **[`devenv.nix`](devenv.nix:1)**: Reproducible development environment using Nix
-- **[`Dockerfile`](Dockerfile:1)**: Optimized multi-stage Docker build with cargo-chef
-- **[`.env.example`](.env.example:1)**: Template for environment variables
-
-## 🛠 Development Setup
-
-### Using devenv (Recommended)
-
-The project uses [devenv](https://devenv.sh/) for reproducible development environments:
-
-```bash
-# Enter the development shell
-devenv shell
-
-# The environment provides:
-# - Rust 1.90.0 with stable channel
-# - cargo, clippy, rustfmt, rust-analyzer
-# - Git and other development tools
-# - Automatic environment variable loading
-```
-
-### Manual Setup
-
-If you prefer not to use devenv:
-
-```bash
-# Install Rust components
-rustup component add clippy rustfmt rust-analyzer
-
-# Install additional tools (optional)
-cargo install cargo-watch cargo-audit cargo-deny
-```
-
-### Editor Configuration
-
-**VS Code:**
-Install the following extensions:
-
-- rust-analyzer
-- CodeLLDB (for debugging)
-- Better TOML
-
-**Other editors:**
-The project works with any editor that supports rust-analyzer LSP.
 
 ## ⚙️ Configuration
 
-### Environment Variables
-
-Copy [`.env.example`](.env.example:1) to `.env` and configure:
+Create `.env` from template and configure as needed:
 
 ```bash
 # .env
-HOST=your-host.com
+HOST=localhost
 PORT=8080
 RUST_LOG=info
-DATABASE_URL=postgresql://user:pass@localhost/db
 ```
 
-### Cargo Configuration
+## 🔨 Development
 
-The [`Cargo.toml`](Cargo.toml:1) includes:
-
-- **tokio**: Async runtime with macros and multi-threading
-- **dotenvy**: Environment variable loading
-- **Rust 2024 edition**: Latest language features
-
-### Adding Dependencies
+### Running the Application
 
 ```bash
-# Add a new dependency
-cargo add serde --features derive
-
-# Add a development dependency
-cargo add --dev proptest
-
-# Add a build dependency
-cargo add --build cc
-```
-
-## 🔨 Building & Running
-
-### Development
-
-```bash
-# Run in development mode
+# Development mode
 cargo run
 
-# Run with file watching (requires cargo-watch)
+# With file watching
 cargo watch -x run
 
-# Run with specific environment
-RUST_LOG=debug cargo run
-```
-
-### Production Build
-
-```bash
-# Build optimized release
+# Release mode
 cargo build --release
-
-# Run release binary
 ./target/release/rust-base
-
-# Build for different target
-cargo build --release --target x86_64-unknown-linux-musl
 ```
 
-### Cross-compilation
-
-The project supports multiple targets:
+### Code Quality
 
 ```bash
-# Add target
-rustup target add x86_64-pc-windows-gnu
+# Format code
+cargo fmt
 
-# Build for Windows
-cargo build --target x86_64-pc-windows-gnu
+# Lint code
+cargo clippy
 
-# Build for ARM64
-rustup target add aarch64-unknown-linux-gnu
-cargo build --target aarch64-unknown-linux-gnu
+# Run tests
+cargo test
+
+# Generate documentation
+cargo doc --open
 ```
 
-## 🐳 Docker Usage
-
-### Building the Image
+### Docker Usage
 
 ```bash
-# Build with default settings
+# Build image
 docker build -t rust-base .
 
-# Build with custom Rust version
-docker build --build-arg RUST_VERSION=1.91 -t rust-base .
-
-# Build for different target
-docker build --build-arg RUST_TARGET=aarch64-unknown-linux-musl -t rust-base .
-```
-
-### Running the Container
-
-```bash
-# Run with environment file
+# Run container
 docker run --env-file .env rust-base
 
-# Run with individual environment variables
-docker run -e HOST=production.com rust-base
-
-# Run interactively
-docker run -it --env-file .env rust-base
-
-# Run with volume mounts
-docker run -v $(pwd)/data:/app/data --env-file .env rust-base
+# Development with volume
+docker run -v $(pwd):/app --env-file .env rust-base
 ```
 
-### Docker Features
-
-- **Multi-stage build**: Optimized for size and security
-- **cargo-chef**: Faster builds with dependency caching
-- **sccache**: Compilation caching for repeated builds
-- **Static linking**: musl target for smaller, portable binaries
-- **Non-root user**: Security best practices
-
 ## 🧪 Testing
-
-### Running Tests
 
 ```bash
 # Run all tests
 cargo test
 
-# Run tests with output
+# Run with output
 cargo test -- --nocapture
 
-# Run specific test
-cargo test test_name
-
-# Run tests in release mode
-cargo test --release
-
-# Run integration tests
-cargo test --test integration_test
-```
-
-### Test Organization
-
-```rust
-// Unit tests in src files
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_example() {
-        assert_eq!(2 + 2, 4);
-    }
-
-    #[tokio::test]
-    async fn test_async_example() {
-        // Async test code
-    }
-}
-```
-
-### Integration Tests
-
-Create files in `tests/` directory:
-
-```rust
-// tests/integration_test.rs
-use rust_base::*;
-
-#[tokio::test]
-async fn test_integration() {
-    // Integration test code
-}
-```
-
-## 📜 Available Scripts
-
-### Cargo Commands
-
-```bash
-# Development
-cargo run                    # Run the application
-cargo run --bin binary_name  # Run specific binary
-cargo watch -x run          # Run with auto-reload
-
-# Building
-cargo build                  # Debug build
-cargo build --release       # Release build
-cargo check                  # Fast compilation check
-
-# Testing
-cargo test                   # Run tests
-cargo test --doc            # Run doc tests
-cargo bench                 # Run benchmarks
-
-# Code Quality
-cargo fmt                   # Format code
-cargo clippy                # Lint code
-cargo clippy -- -D warnings # Lint with warnings as errors
-
-# Documentation
-cargo doc                   # Generate documentation
-cargo doc --open            # Generate and open docs
-
-# Maintenance
-cargo update                # Update dependencies
-cargo audit                 # Security audit (requires cargo-audit)
-cargo deny check            # License and security checks
-```
-
-### devenv Commands
-
-```bash
-devenv shell               # Enter development shell
-devenv up                  # Start background services
-devenv test                # Run environment tests
-devenv info                # Show environment info
+# Integration tests
+cargo test --test integration
 ```
 
 ## 📚 Dependencies
 
-### Runtime Dependencies
+| Crate                                         | Purpose               |
+| --------------------------------------------- | --------------------- |
+| [`tokio`](https://tokio.rs/)                  | Async runtime         |
+| [`dotenvy`](https://crates.io/crates/dotenvy) | Environment variables |
 
-| Crate                                         | Version | Purpose                      |
-| --------------------------------------------- | ------- | ---------------------------- |
-| [`tokio`](https://tokio.rs/)                  | 1.x     | Async runtime and utilities  |
-| [`dotenvy`](https://crates.io/crates/dotenvy) | 0.15.7  | Environment variable loading |
+### Adding Dependencies
 
-### Development Dependencies
+```bash
+# Runtime dependency
+cargo add serde --features derive
 
-The devenv configuration provides:
-
-- Rust 1.90.0 with stable toolchain
-- cargo, clippy, rustfmt, rust-analyzer
-- Git version control
-- Additional Nix packages as needed
-
-### Recommended Additional Crates
-
-Consider adding these popular crates based on your needs:
-
-```toml
-# Web frameworks
-axum = "0.7"                 # Modern async web framework
-warp = "0.3"                 # Lightweight web server
-
-# Serialization
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-
-# Database
-sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres"] }
-diesel = { version = "2.1", features = ["postgres"] }
-
-# Error handling
-anyhow = "1.0"               # Easy error handling
-thiserror = "1.0"           # Custom error types
-
-# Logging
-tracing = "0.1"              # Structured logging
-tracing-subscriber = "0.3"
-
-# Configuration
-config = "0.14"              # Configuration management
-clap = { version = "4.0", features = ["derive"] }  # CLI parsing
+# Development dependency
+cargo add --dev proptest
 ```
 
-## 🏗 Architecture & Design
+## 🚀 Deployment
 
-### Design Principles
+### Building for Production
 
-1. **Simplicity**: Start simple, evolve as needed
-2. **Performance**: Async-first with Tokio runtime
-3. **Security**: Environment-based configuration
-4. **Portability**: Docker and cross-platform support
-5. **Developer Experience**: Modern tooling and practices
+```bash
+# Optimized build
+cargo build --release
 
-### Architectural Patterns
+# Cross-compile for Linux
+cargo build --release --target x86_64-unknown-linux-musl
 
-#### Async/Await Pattern
-
-```rust
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Async application logic
-    Ok(())
-}
+# Docker production build
+docker build --target runtime -t rust-base:prod .
 ```
 
-#### Environment Configuration
+### Environment Variables
 
-```rust
-use std::env;
+Required environment variables:
 
-fn load_config() -> Config {
-    dotenvy::dotenv().ok();
+- `HOST`: Server hostname
+- `PORT`: Server port (optional, defaults in code)
+- `RUST_LOG`: Logging level (optional)
 
-    Config {
-        host: env::var("HOST").unwrap_or_else(|_| "localhost".to_string()),
-        port: env::var("PORT")
-            .unwrap_or_else(|_| "8080".to_string())
-            .parse()
-            .expect("PORT must be a number"),
-    }
-}
-```
+## 🤝 Contributing
 
-#### Error Handling
-
-```rust
-use anyhow::{Context, Result};
-
-async fn process_data() -> Result<String> {
-    let data = fetch_data()
-        .await
-        .context("Failed to fetch data")?;
-
-    Ok(process(data))
-}
-```
-
-### Project Organization
-
-```
-src/
-├── main.rs              # Application entry point
-├── lib.rs               # Library root (optional)
-├── config/              # Configuration modules
-│   ├── mod.rs
-│   └── settings.rs
-├── handlers/            # Request handlers
-├── models/              # Data models
-├── services/            # Business logic
-└── utils/               # Utility functions
-```
-
-## 🎯 Best Practices
-
-### Code Organization
-
-1. **Module Structure**: Use clear module hierarchy
-2. **Error Handling**: Prefer `Result<T, E>` over panics
-3. **Documentation**: Document public APIs with `///`
-4. **Testing**: Write unit and integration tests
-
-### Performance Considerations
-
-1. **Async Operations**: Use async/await for I/O operations
-2. **Memory Management**: Leverage Rust's ownership system
-3. **Compilation**: Use release builds for production
-4. **Dependencies**: Keep dependencies minimal and up-to-date
-
-### Security Best Practices
-
-1. **Environment Variables**: Never commit secrets to version control
-2. **Input Validation**: Validate all external inputs
-3. **Dependencies**: Regularly audit with `cargo audit`
-4. **Docker**: Use non-root users and minimal base images
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/new-feature`
+3. Make changes and test: `cargo test && cargo clippy`
+4. Format code: `cargo fmt`
+5. Commit changes: `git commit -m 'Add new feature'`
+6. Push and create a Pull Request
 
 ### Development Workflow
 
 ```bash
 # Before committing
-cargo fmt                    # Format code
-cargo clippy -- -D warnings # Check for issues
-cargo test                   # Run tests
-cargo audit                  # Security audit
-```
-
-### CI/CD Integration
-
-Example GitHub Actions workflow:
-
-```yaml
-name: CI
-on: [push, pull_request]
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test --all-features
-      - run: cargo clippy -- -D warnings
-      - run: cargo fmt --all -- --check
+cargo fmt && cargo clippy -- -D warnings && cargo test
 ```
 
 ## 🔧 Troubleshooting
 
 ### Common Issues
 
-#### Environment Variables Not Loading
-
-**Problem**: [`dotenvy::dotenv()`](src/main.rs:3) not finding `.env` file
-
-**Solution**:
+**Environment variables not loading:**
 
 ```bash
-# Ensure .env file exists in project root
+# Ensure .env exists
 cp .env.example .env
-
-# Check file permissions
-ls -la .env
-
-# Verify environment variables
-cargo run -- --help  # if using clap
 ```
 
-#### Compilation Errors
-
-**Problem**: Missing system dependencies
-
-**Solution**:
+**Build failures:**
 
 ```bash
-# Ubuntu/Debian
-sudo apt-get install build-essential pkg-config libssl-dev
+# Update Rust
+rustup update
 
-# macOS
-xcode-select --install
-
-# Or use devenv for consistent environment
-devenv shell
+# Clear cache
+cargo clean
 ```
 
-#### Docker Build Issues
-
-**Problem**: Slow Docker builds or caching issues
-
-**Solution**:
+**Docker issues:**
 
 ```bash
-# Clear Docker cache
-docker builder prune
-
-# Build with no cache
+# Rebuild without cache
 docker build --no-cache -t rust-base .
-
-# Check multi-platform builds
-docker buildx build --platform linux/amd64,linux/arm64 -t rust-base .
 ```
-
-#### Performance Issues
-
-**Problem**: Slow application startup
-
-**Solutions**:
-
-1. Use release builds: `cargo build --release`
-2. Enable link-time optimization in `Cargo.toml`:
-   ```toml
-   [profile.release]
-   lto = true
-   codegen-units = 1
-   ```
-3. Profile with `cargo flamegraph` (requires installation)
-
-### Getting Help
-
-1. **Rust Documentation**: https://doc.rust-lang.org/
-2. **Tokio Guide**: https://tokio.rs/tokio/tutorial
-3. **devenv Documentation**: https://devenv.sh/
-4. **Community**: https://users.rust-lang.org/
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these guidelines:
-
-### Development Process
-
-1. **Fork** the repository
-2. **Clone** your fork: `git clone https://github.com/yourusername/rust-base.git`
-3. **Create** a feature branch: `git checkout -b feature/amazing-feature`
-4. **Set up** development environment: `devenv shell`
-5. **Make** your changes following the coding standards
-6. **Test** your changes: `cargo test`
-7. **Format** code: `cargo fmt`
-8. **Lint** code: `cargo clippy`
-9. **Commit** changes: `git commit -m 'Add amazing feature'`
-10. **Push** to branch: `git push origin feature/amazing-feature`
-11. **Open** a Pull Request
-
-### Coding Standards
-
-- Follow Rust naming conventions
-- Write comprehensive tests for new features
-- Document public APIs with rustdoc comments
-- Keep commits atomic and well-described
-- Ensure all CI checks pass
-
-### Pull Request Guidelines
-
-- Provide clear description of changes
-- Reference related issues
-- Include tests for new functionality
-- Update documentation as needed
-- Ensure backward compatibility when possible
-
-### Issue Reporting
-
-When reporting issues, please include:
-
-- Rust version (`rustc --version`)
-- Operating system
-- Steps to reproduce
-- Expected vs actual behavior
-- Relevant logs or error messages
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## 🔗 Resources
 
-- [Tokio](https://tokio.rs/) for the excellent async runtime
-- [devenv](https://devenv.sh/) for reproducible development environments
-- [cargo-chef](https://github.com/LukeMathWalker/cargo-chef) for Docker build optimization
-- The Rust community for creating an amazing ecosystem
+- [Rust Documentation](https://doc.rust-lang.org/)
+- [Tokio Tutorial](https://tokio.rs/tokio/tutorial)
+- [devenv Guide](https://devenv.sh/)
 
 ---
 
-**Happy coding! 🦀**
-
-For more information, visit the [official Rust documentation](https://doc.rust-lang.org/) or join the [Rust community](https://www.rust-lang.org/community).
+Built with ❤️ using Rust
