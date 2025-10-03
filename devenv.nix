@@ -33,10 +33,9 @@
 
   # https://devenv.sh/basics/
   enterShell = ''
-    git --version # Use packages
+    git --version
     echo "Rust version: $(rustc --version)"
     echo "Cargo version: $(cargo --version)"
-    echo "RUST_SRC_PATH: $RUST_SRC_PATH"
   '';
 
   # https://devenv.sh/tasks/
