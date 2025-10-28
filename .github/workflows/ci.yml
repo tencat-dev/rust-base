@@ -10,6 +10,8 @@ jobs:
   build-test-audit:
     name: Build, Clippy, Test, Audit
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout code
