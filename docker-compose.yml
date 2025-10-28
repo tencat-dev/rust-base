@@ -1,0 +1,9 @@
+services:
+  rust-base:
+    container_name: rust-base
+    image: tencat-dev/rust-base:latest
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - HOST=tencat.dev
