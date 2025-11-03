@@ -1,6 +1,10 @@
-{ pkgs, lib, config, inputs, ... }:
-
 {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}: {
   cachix.enable = true;
   dotenv.disableHint = true;
 
@@ -8,18 +12,18 @@
   env = {};
 
   # https://devenv.sh/packages/
- packages = with pkgs; [
-      git
+  packages = with pkgs; [
+    git
   ];
 
   # https://devenv.sh/languages/
   languages.rust = {
-      channel = "stable";
-      enable = true;
-      version = "1.90.0";
-      targets = ["x86_64-unknown-linux-gnu"];
-      components = ["rustc" "cargo" "clippy" "rustfmt" "rust-analyzer" "rust-src"];
-    };
+    channel = "stable";
+    enable = true;
+    version = "1.91.0";
+    targets = ["x86_64-unknown-linux-gnu"];
+    components = ["rustc" "cargo" "clippy" "rustfmt" "rust-analyzer" "rust-src"];
+  };
 
   # https://devenv.sh/processes/
   # processes.dev.exec = "${lib.getExe pkgs.watchexec} -n -- ls -la";
@@ -28,9 +32,9 @@
   # services.postgres.enable = true;
 
   # https://devenv.sh/scripts/
-#  scripts.hello.exec = ''
-#    echo hello from $GREET
-#  '';
+  #  scripts.hello.exec = ''
+  #    echo hello from $GREET
+  #  '';
 
   # https://devenv.sh/basics/
   enterShell = ''
