@@ -6,7 +6,7 @@
 # - https://www.lpalmieri.com/posts/fast-rust-docker-builds/
 # - https://github.com/LukeMathWalker/cargo-chef
 
-ARG RUST_VERSION=${RUST_VERSION:-"1.90"}
+ARG RUST_VERSION=${RUST_VERSION:-"1.91"}
 ARG RUST_TARGET=${RUST_TARGET:-"x86_64-unknown-linux-musl"}
 
 FROM rust:${RUST_VERSION}-slim AS base
