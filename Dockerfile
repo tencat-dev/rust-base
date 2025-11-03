@@ -9,9 +9,8 @@
 ARG RUST_VERSION=${RUST_VERSION:-"1.91"}
 ARG RUST_TARGET=${RUST_TARGET:-"x86_64-unknown-linux-musl"}
 
-FROM rust:${RUST_VERSION}-slim AS base
+FROM rust:${RUST_VERSION}-slim AS build-base
 WORKDIR /app
-
 ARG RUST_TARGET
 
 # Install only minimal dependencies
@@ -20,6 +19,7 @@ RUN apt-get update -y \
         ca-certificates \
         musl-tools \
         curl \
+        binutils \
     && rm -rf /var/lib/apt/lists/*
 
 # Install cargo-binstall (much faster and smaller than cargo install)
@@ -36,14 +36,13 @@ RUN rustup target add "${RUST_TARGET}" \
 
 ENV RUSTC_WRAPPER=sccache SCCACHE_DIR=/sccache
 
-FROM base AS planner
+FROM build-base AS planner
 
 COPY . .
 
 RUN cargo chef prepare --recipe-path recipe.json
 
-FROM base AS builder
-
+FROM build-base AS builder
 ARG RUST_TARGET
 
 COPY --from=planner /app/recipe.json .
@@ -60,11 +59,12 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=$SCCACHE_DIR,sharing=locked \
     cargo build --release --target $RUST_TARGET
 
-FROM debian:bookworm-slim AS runtime
-WORKDIR /app
+RUN strip /app/target/$RUST_TARGET/release/rust-base
 
+FROM gcr.io/distroless/static-debian12:nonroot AS runtime
+WORKDIR /app
 ARG RUST_TARGET
 
 COPY --from=builder /app/target/$RUST_TARGET/release/rust-base /usr/local/bin/app
 
-ENTRYPOINT ["/usr/local/bin/app"]
+CMD ["/usr/local/bin/app"]
