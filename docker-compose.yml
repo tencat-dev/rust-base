@@ -2,6 +2,7 @@ services:
   rust-base:
     container_name: rust-base
     image: tencat-dev/rust-base:latest
+    platform: linux/amd64
     build:
       context: .
       dockerfile: ./Dockerfile
