@@ -20,7 +20,7 @@
   languages.rust = {
     channel = "stable";
     enable = true;
-    version = "1.91.0";
+    version = "1.91.1";
     targets = ["x86_64-unknown-linux-gnu"];
     components = ["rustc" "cargo" "clippy" "rustfmt" "rust-analyzer" "rust-src"];
   };
