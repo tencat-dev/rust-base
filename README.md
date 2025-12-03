@@ -1,7 +1,7 @@
 # 🦀 rust-base
 
 ![CI](https://github.com/tencat-dev/rust-base/actions/workflows/ci.yml/badge.svg)
-[![Rust](https://img.shields.io/badge/rust-1.90.0-orange.svg)](https://www.rust-lang.org/)
+[![Rust](https://img.shields.io/badge/rust-1.91.0-orange.svg)](https://www.rust-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A modern Rust boilerplate template with async runtime, environment management, and containerization support.
