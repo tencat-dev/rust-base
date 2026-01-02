@@ -1,8 +1,8 @@
-[package]
-name = "rust-base"
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
 version = "0.1.0"
 edition = "2024"
-
-[dependencies]
-dotenvy = { version ="0.15.7"}
-tokio = { version = "1", features = ["macros", "rt", "rt-multi-thread"]}
+publish = false

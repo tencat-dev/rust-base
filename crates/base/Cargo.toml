@@ -1,0 +1,9 @@
+[package]
+name = "base"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[dependencies]
+dotenvy = { version = "0.15.7" }
+tokio = { version = "1", features = ["macros", "rt", "rt-multi-thread"] }
